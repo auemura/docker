@@ -32,7 +32,8 @@ function connDb(res){
     var rows =  JSON.stringify(result);  
     rows =  JSON.parse(rows);   
 
-    var html = `<h1>Full Cycle Rocks!</h1>
+    var html = `
+    <h1>Full Cycle Rocks!</h1>
     <table border="1">
     <tr>
     <th>Id</th>

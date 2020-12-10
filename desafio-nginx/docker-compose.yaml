@@ -8,14 +8,16 @@ services:
             - "8080:80"
         container_name: nginx
         depends_on:
-            - app
+            - node1
+            - node2
+            - node3
         tty: true
         networks: 
             - node_network
-    app:
+    node1:
         build: 
             context: node
-        container_name: app
+        container_name: node1
         entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
         networks: 
             - node_network
@@ -24,6 +26,30 @@ services:
             - db
         command: node /usr/src/app/index.js
 
+    node2:
+        build: 
+            context: node
+        container_name: node2
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+        networks: 
+            - node_network
+        tty: true
+        depends_on: 
+            - db
+        command: node /usr/src/app/index.js
+
+    node3:
+        build: 
+            context: node
+        container_name: node3
+        entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+        networks: 
+            - node_network
+        tty: true
+        depends_on: 
+            - db
+        command: node /usr/src/app/index.js
+    
     db:
         image: mysql:5.7
         command: --innodb-use-native-aio=0
